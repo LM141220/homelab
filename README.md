@@ -1,45 +1,103 @@
-# Homelab DevOps
+# Architecture cible
 
-Homelab personnel destiné à l'expérimentation des technologies DevOps et Cloud.
+## Vision
 
-## Objectifs
+L'objectif de ce homelab est de disposer d'un environnement personnel permettant :
 
-- Héberger des applications personnelles
-- Apprendre Docker
-- Mettre en place du monitoring
-- Découvrir Kubernetes (k3s)
-- Expérimenter le GitOps
+- l'hébergement d'applications personnelles ;
+- l'apprentissage des technologies DevOps ;
+- l'expérimentation de Docker, Kubernetes et GitOps ;
+- la supervision de services comme en environnement professionnel.
 
-## Stack
+## Architecture cible
 
-- Ubuntu Server
-- Docker
-- Docker Compose
-- Tailscale
-- Uptime Kuma
-- Grafana
-- Prometheus
+```mermaid
+flowchart TD
 
-## Roadmap
+User[Utilisateur]
 
-### Phase 1
-- [ ] Ubuntu Server
-- [ ] Docker
-- [ ] Tailscale
+User --> Tailscale
 
-### Phase 2
-- [ ] Uptime Kuma
-- [ ] Grafana
-- [ ] Prometheus
+subgraph Homelab
+    Ubuntu[Ubuntu Server]
 
-### Phase 3
-- [ ] Déploiement Calorie Tracker AI
+    subgraph Docker
+        Calorie[Calorie Tracker AI]
+        Kuma[Uptime Kuma]
+        Grafana[Grafana]
+        Prometheus[Prometheus]
+        Forgejo[Forgejo]
+    end
 
-### Phase 4
-- [ ] Proxmox
+    Ubuntu --> Docker
+end
 
-### Phase 5
-- [ ] k3s
+Tailscale --> Ubuntu
 
-### Phase 6
-- [ ] ArgoCD
+Prometheus --> Grafana
+Kuma --> Calorie
+```
+
+## Services
+
+### Calorie Tracker AI
+
+Application personnelle développée en Next.js.
+
+Fonctionnalités :
+
+- suivi calorique ;
+- analyse IA des repas ;
+- statistiques ;
+- PWA.
+
+### Uptime Kuma
+
+Surveillance de la disponibilité :
+
+- Calorie Tracker AI ;
+- Forgejo ;
+- services futurs.
+
+### Prometheus
+
+Collecte des métriques système et applicatives.
+
+### Grafana
+
+Visualisation des métriques :
+
+- CPU ;
+- mémoire ;
+- stockage ;
+- disponibilité.
+
+### Forgejo
+
+Forge Git personnel permettant :
+
+- l'hébergement de dépôts ;
+- les tests CI/CD ;
+- l'apprentissage GitOps.
+
+## Évolutions prévues
+
+### Court terme
+
+- Déploiement du Calorie Tracker AI
+- Monitoring Grafana + Prometheus
+- Accès distant via Tailscale
+
+### Moyen terme
+
+- Reverse proxy Traefik
+- HTTPS Let's Encrypt
+- Sauvegardes automatisées
+
+### Long terme
+
+- Migration vers Proxmox
+- Cluster k3s
+- ArgoCD
+- GitOps
+```
