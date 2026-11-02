@@ -1,0 +1,11 @@
+.env
+
+**/data/
+
+**/grafana.db
+
+**/prometheus_data
+
+.vscode
+
+*.log

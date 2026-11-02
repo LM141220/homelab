@@ -1,0 +1,18 @@
+services:
+  calorie-tracker:
+    image: ghcr.io/lm141220/calorie-tracker-ai:latest
+    container_name: calorie-tracker
+
+    restart: unless-stopped
+
+    ports:
+      - "3002:3000"
+
+    env_file:
+      - .env
+
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
